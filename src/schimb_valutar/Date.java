@@ -1,5 +1,6 @@
 package schimb_valutar;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 public class Date implements Comparable<Date> {
@@ -29,11 +30,19 @@ public class Date implements Comparable<Date> {
         int anDiff = this.an - other.an;
         int lunaDiff = this.luna - other.luna;
         int ziDiff = this.zi - other.zi;
-        if (anDiff != 0)
-            return anDiff;
-        else if (lunaDiff != 0)
-            return lunaDiff;
-        return ziDiff;
+        if (anDiff < 0)
+            return -1;
+        else if (anDiff > 0)
+            return 1;
+        else if (lunaDiff < 0)
+            return -1;
+        else if (lunaDiff > 0)
+            return 1;
+        else if (ziDiff < 0)
+            return -1;
+        else if (ziDiff > 0)
+            return 1;
+        return 0;
     }
 
     @Override
