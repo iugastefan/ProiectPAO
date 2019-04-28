@@ -17,24 +17,12 @@ class Client extends Persoana {
         return cnp;
     }
 
-    public void setCnp(long cnp) {
-        this.cnp = cnp;
-    }
-
     public String getSerie_id() {
         return serie_id;
     }
 
-    public void setSerie_id(String serie_id) {
-        this.serie_id = serie_id;
-    }
-
     public int getNumar_id() {
         return numar_id;
-    }
-
-    public void setNumar_id(int numar_id) {
-        this.numar_id = numar_id;
     }
 
     @Override

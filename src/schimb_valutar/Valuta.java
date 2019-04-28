@@ -20,6 +20,14 @@ public class Valuta {
         this.comision_vanzare = comision_vanzare;
     }
 
+    public Valuta(Valuta valutaVeche, double curs, double comision_cumparare, double comision_vanzare) {
+        this.nume = valutaVeche.nume;
+        this.prescurtare = valutaVeche.prescurtare;
+        this.curs = curs;
+        this.comision_cumparare = comision_cumparare;
+        this.comision_vanzare = comision_vanzare;
+    }
+
     public String getNume() {
         return nume;
     }

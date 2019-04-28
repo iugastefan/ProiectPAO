@@ -1,6 +1,5 @@
 package schimb_valutar;
 
-import java.util.Comparator;
 import java.util.Objects;
 
 public class Date implements Comparable<Date> {
@@ -45,7 +44,6 @@ public class Date implements Comparable<Date> {
         return 0;
     }
 
-    @Override
     public String toString() {
         return this.zi + "." + this.luna + "." + this.an;
     }
