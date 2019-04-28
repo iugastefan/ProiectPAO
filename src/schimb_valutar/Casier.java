@@ -13,6 +13,6 @@ class Casier extends Persoana {
 
     @Override
     public String toString() {
-        return "Id: " + id + "\t Nume: " + nume + " Prenume: " + prenume;
+        return "<Casier id=\"" + id + "\" nume=\"" + nume + "\" prenume=\"" + prenume+"\"/>";
     }
 }

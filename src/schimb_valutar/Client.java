@@ -27,6 +27,6 @@ class Client extends Persoana {
 
     @Override
     public String toString() {
-        return "Cnp: " + cnp + " Serie: " + serie_id + " Numar: " + numar_id + "\t Nume: " + nume + " Prenume: " + prenume;
+        return "<Client cnp=\"" + cnp + "\" serie=\"" + serie_id + "\" numar=\"" + numar_id + "\" nume=\"" + nume + "\" prenume=\"" + prenume+"\"/>";
     }
 }
