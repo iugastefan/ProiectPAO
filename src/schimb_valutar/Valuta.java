@@ -9,7 +9,7 @@ public class Valuta {
 
     @Override
     public String toString() {
-        return "<Valuta nume=\""+nume + "\" prescurtare=\"" + prescurtare + "\" curs=\"" +curs + "\" comision_cumparare=\"" + comision_cumparare + "\" comision_vanzare=\"" + comision_vanzare+"\"/>";
+        return nume + "," + prescurtare + "," + curs + "," + comision_cumparare + "," + comision_vanzare;
     }
 
     public Valuta(String nume, String prescurtare, double curs, double comision_cumparare, double comision_vanzare) {

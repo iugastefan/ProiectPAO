@@ -17,10 +17,17 @@ final class ServiciuFisiere {
         return Optional.empty();
     }
 
-    static void scrieFisier(String locatie, String fisier, List<String> date) throws IOException {
+    static void scrieFisierAppend(String locatie, String fisier, List<String> date) throws IOException {
         Path file = FileSystems.getDefault().getPath(locatie, fisier);
         Files.write(file,
                 date,
                 Charset.forName("UTF-8"), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+    }
+
+    static void scrieFisierOverwrite(String locatie, String fisier, List<String> date) throws IOException {
+        Path file = FileSystems.getDefault().getPath(locatie, fisier);
+        Files.write(file,
+                date,
+                Charset.forName("UTF-8"), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
 }

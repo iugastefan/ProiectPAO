@@ -17,7 +17,6 @@ class ServiciuCasieri {
         }
         optionalList.ifPresent(strings -> strings
                 .stream()
-                .skip(1)
                 .map(x -> Arrays.asList(x.split(",")))
                 .forEach(x -> casieri.add(new Casier(x.get(0).strip(), x.get(1).strip())))
         );
@@ -33,7 +32,7 @@ class ServiciuCasieri {
         Casier x = new Casier(nume, prenume);
         casieri.add(x);
         try {
-            ServiciuFisiere.scrieFisier("date", "casieri.csv", Collections.singletonList(nume + "," + prenume));
+            ServiciuFisiere.scrieFisierAppend("date", "casieri.csv", Collections.singletonList(nume + "," + prenume));
         } catch (IOException e) {
             e.printStackTrace();
         }

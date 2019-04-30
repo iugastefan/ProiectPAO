@@ -17,7 +17,6 @@ class ServiciuClienti {
         }
         optionalList.ifPresent(strings -> strings
                 .stream()
-                .skip(1)
                 .map(x -> Arrays.asList(x.split(",")))
                 .forEach(x -> clienti.add(new Client(x.get(0).strip(), x.get(1).strip(), Long.parseLong(x.get(2).strip()),
                         x.get(3).strip(), Integer.parseInt(x.get(4).strip()))))
@@ -34,7 +33,7 @@ class ServiciuClienti {
         Client x = new Client(nume, prenume, cnp, serie_id, numar_id);
         clienti.add(x);
         try {
-            ServiciuFisiere.scrieFisier("date", "clienti.csv",
+            ServiciuFisiere.scrieFisierAppend("date", "clienti.csv",
                     Collections.singletonList(nume + "," + prenume + "," + cnp + "," + serie_id + "," + numar_id));
         } catch (IOException e) {
             e.printStackTrace();

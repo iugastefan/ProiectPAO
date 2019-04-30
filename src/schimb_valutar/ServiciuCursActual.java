@@ -1,9 +1,8 @@
 package schimb_valutar;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 class ServiciuCursActual {
@@ -21,10 +20,31 @@ class ServiciuCursActual {
         listaValuteActuale = new ArrayList<>();
         LocalDate date = LocalDate.now();
         dataActuala = new Date(date.getDayOfMonth(), date.getMonthValue(), date.getYear());
+        Optional<List<String>> linii = Optional.empty();
+        try {
+            linii = ServiciuFisiere.citesteFisier("date", "curs_actual.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        linii.ifPresent(strings ->
+                strings
+                        .stream()
+                        .map(x -> Arrays.asList(x.split(","))).forEach(x -> listaValuteActuale.add(
+                        new Valuta(
+                                x.get(1), x.get(2), Double.parseDouble(x.get(3)),
+                                Double.parseDouble(x.get(4)), Double.parseDouble(x.get(5)))
+                        )
+                ));
+        //TODO: de luat de pe net in mod automat curs actual odata pe zi
     }
 
     void adaugaValuta(Valuta v) {
         listaValuteActuale.add(v);
+        try {
+            ServiciuFisiere.scrieFisierAppend("date", "curs_actual.csv", Collections.singletonList(dataActuala + "," + v.toString()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     Optional<Valuta> getInfoValutaActual(String v) {
@@ -32,9 +52,19 @@ class ServiciuCursActual {
     }
 
     void updateValutaActual(Valuta v) throws Exception {
-        if (listaValuteActuale.stream().anyMatch(o -> o.getNume().equals(v.getNume())))
-            listaValuteActuale = listaValuteActuale.stream().map(o -> o.getNume().equals(v.getNume()) ? v : o).collect(Collectors.toList());
-        else
+        if (listaValuteActuale.stream().anyMatch(o -> o.getNume().equals(v.getNume()))) {
+            listaValuteActuale = listaValuteActuale
+                    .stream()
+                    .map(o -> o.getNume().equals(v.getNume()) ? v : o)
+                    .collect(Collectors.toList());
+            try {
+                ServiciuFisiere.scrieFisierOverwrite("date", "curs_actual.csv",
+                        listaValuteActuale.stream().map(o -> dataActuala.toString() + "," + o.toString()).collect(Collectors.toList())
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else
             throw new Exception("Valuta cu numele " + v.getNume() + " nu exista in actual!");
     }
 

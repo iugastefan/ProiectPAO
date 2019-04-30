@@ -10,8 +10,8 @@ public class Main {
         Servicii servicii = Servicii.getInstance();
         Valuta v = new Valuta("Euro", "EUR", 4.7, 0.02, 0.03);
         Valuta v2 = new Valuta("Dollar", "USD", 4.1, 0.02, 0.03);
-        servicii.adaugaValuta(v);
-        servicii.adaugaValuta(v2);
+//        servicii.adaugaValuta(v);
+//        servicii.adaugaValuta(v2);
         Optional<Valuta> v3 = servicii.getInfoValutaActual("USD");
         if (v3.isPresent())
             System.out.println(v3.get().getCurs());
