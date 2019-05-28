@@ -12,6 +12,7 @@ final public class Servicii {
     private static ServiciuCursActual actual;
     private static ServiciuClienti clienti;
     private static ServiciuCasieri casieri;
+    private static ServiciuCont cont;
     private static Servicii instance = new Servicii();
 
     public static Servicii getInstance() {
@@ -24,6 +25,19 @@ final public class Servicii {
         actual = ServiciuCursActual.getInstance();
         clienti = ServiciuClienti.getInstance();
         casieri = ServiciuCasieri.getInstance();
+        cont = ServiciuCont.getInstance();
+    }
+
+    public void cumparaValuta(Valuta valuta_veche, Valuta valuta_noua, Double suma_de_cumparat) throws Exception {
+        cont.cumparaValuta(valuta_veche, valuta_noua, suma_de_cumparat);
+    }
+
+    public void adaugaBani(String valuta, Double suma) {
+        cont.adaugaBani(valuta, suma);
+    }
+
+    public String afisCont() {
+        return cont.toString();
     }
 
     public void adaugaValuta(Valuta v) {
