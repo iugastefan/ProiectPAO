@@ -1,5 +1,7 @@
 package schimb_valutar;
 
+import java.util.Objects;
+
 public class Valuta {
     private String nume;
     private String prescurtare;
@@ -32,7 +34,7 @@ public class Valuta {
         return nume;
     }
 
-    String getPrescurtare() {
+    public String getPrescurtare() {
         return prescurtare;
     }
 
@@ -46,6 +48,23 @@ public class Valuta {
 
     public double getComision_vanzare() {
         return comision_vanzare;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Valuta valuta = (Valuta) o;
+        return Double.compare(valuta.curs, curs) == 0 &&
+                Double.compare(valuta.comision_cumparare, comision_cumparare) == 0 &&
+                Double.compare(valuta.comision_vanzare, comision_vanzare) == 0 &&
+                nume.equals(valuta.nume) &&
+                prescurtare.equals(valuta.prescurtare);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nume, prescurtare, curs, comision_cumparare, comision_vanzare);
     }
 }
 

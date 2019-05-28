@@ -1,4 +1,7 @@
-package schimb_valutar;
+package servicii;
+
+import schimb_valutar.Date;
+import schimb_valutar.Valuta;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -8,7 +11,7 @@ import java.util.stream.Collectors;
 class ServiciuCursActual {
     private static ServiciuCursActual instance;
     private List<Valuta> listaValuteActuale;
-    private Date dataActuala;
+    private schimb_valutar.Date dataActuala;
 
     static ServiciuCursActual getInstance() {
         if (instance == null)
@@ -19,7 +22,14 @@ class ServiciuCursActual {
     private ServiciuCursActual() {
         listaValuteActuale = new ArrayList<>();
         LocalDate date = LocalDate.now();
-        dataActuala = new Date(date.getDayOfMonth(), date.getMonthValue(), date.getYear());
+        dataActuala = new schimb_valutar.Date(date.getDayOfMonth(), date.getMonthValue(), date.getYear());
+
+    }
+
+    private void ServiciuCursActualFromFisier() {
+        listaValuteActuale = new ArrayList<>();
+        LocalDate date = LocalDate.now();
+        dataActuala = new schimb_valutar.Date(date.getDayOfMonth(), date.getMonthValue(), date.getYear());
         Optional<List<String>> linii = Optional.empty();
         try {
             linii = ServiciuFisiere.citesteFisier("date", "curs_actual.csv");
@@ -40,18 +50,18 @@ class ServiciuCursActual {
 
     void adaugaValuta(Valuta v) {
         listaValuteActuale.add(v);
-        try {
-            ServiciuFisiere.scrieFisierAppend("date", "curs_actual.csv", Collections.singletonList(dataActuala + "," + v.toString()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ServiciuFisiere.scrieFisierAppend("date", "curs_actual.csv", Collections.singletonList(dataActuala + "," + v.toString()));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     Optional<Valuta> getInfoValutaActual(String v) {
         return listaValuteActuale.stream().filter(x -> x.getNume().equals(v) || x.getPrescurtare().equals(v)).findFirst();
     }
 
-    void updateValutaActual(Valuta v) throws Exception {
+    void updateValutaActualSiFisier(Valuta v) throws Exception {
         if (listaValuteActuale.stream().anyMatch(o -> o.getNume().equals(v.getNume()))) {
             listaValuteActuale = listaValuteActuale
                     .stream()
@@ -66,6 +76,11 @@ class ServiciuCursActual {
             }
         } else
             throw new Exception("Valuta cu numele " + v.getNume() + " nu exista in actual!");
+    }
+
+    void putActualInIstoric() {
+        Servicii s = Servicii.getInstance();
+        listaValuteActuale.forEach(x -> s.addValutaInIstoric(dataActuala, x));
     }
 
     Date getDataActuala() {

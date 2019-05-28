@@ -1,11 +1,11 @@
 package schimb_valutar;
 
-class Client extends Persoana {
+public class Client extends Persoana {
     private long cnp;
     private String serie_id;
     private int numar_id;
 
-    Client(String nume, String prenume, long cnp, String serie_id, int numar_id) {
+    public Client(String nume, String prenume, long cnp, String serie_id, int numar_id) {
         this.nume = nume;
         this.prenume = prenume;
         this.cnp = cnp;

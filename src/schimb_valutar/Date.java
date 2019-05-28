@@ -45,7 +45,7 @@ public class Date implements Comparable<Date> {
     }
 
     public String toString() {
-        return this.zi + "." + this.luna + "." + this.an;
+        return this.zi + "/" + this.luna + "/" + this.an;
     }
 
     @Override

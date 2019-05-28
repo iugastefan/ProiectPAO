@@ -1,12 +1,17 @@
-package schimb_valutar;
+package servicii;
 
+import schimb_valutar.Date;
+import schimb_valutar.Valuta;
+
+import java.sql.ResultSet;
 import java.util.Optional;
 
 final public class Servicii {
-    private ServiciuCursIstoric istoric;
-    private ServiciuCursActual actual;
-    private ServiciuClienti clienti;
-    private ServiciuCasieri casieri;
+    private static ServiciuDB db;
+    private static ServiciuCursIstoric istoric;
+    private static ServiciuCursActual actual;
+    private static ServiciuClienti clienti;
+    private static ServiciuCasieri casieri;
     private static Servicii instance = new Servicii();
 
     public static Servicii getInstance() {
@@ -14,6 +19,7 @@ final public class Servicii {
     }
 
     private Servicii() {
+        db = ServiciuDB.getInstance();
         istoric = ServiciuCursIstoric.getInstance();
         actual = ServiciuCursActual.getInstance();
         clienti = ServiciuClienti.getInstance();
@@ -28,8 +34,8 @@ final public class Servicii {
         return actual.getInfoValutaActual(v);
     }
 
-    public void updateValutaActual(Valuta v) throws Exception {
-        actual.updateValutaActual(v);
+    public void updateValutaActualSiFisier(Valuta v) throws Exception {
+        actual.updateValutaActualSiFisier(v);
     }
 
     public void getValutaLaData(Date date, String nume) throws Exception {
@@ -48,6 +54,14 @@ final public class Servicii {
         casieri.addCasier(nume, prenume);
     }
 
+    void addValutaInIstoric(Date date, Valuta valuta) {
+        istoric.addValuta(date, valuta);
+    }
+
+    public void putActualInIstoric() {
+        actual.putActualInIstoric();
+    }
+
     public void printClienti() {
         clienti.printClienti();
     }
@@ -56,4 +70,7 @@ final public class Servicii {
         casieri.printCasieri();
     }
 
+    ResultSet executeQuery(String query) {
+        return db.executeQuery(query);
+    }
 }
