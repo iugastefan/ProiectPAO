@@ -19,7 +19,7 @@ class ServiciuCursIstoric {
     }
 
     private ServiciuCursIstoric() {
-        istoric = getIstoricValutaFromDB();
+        istoric = getIstoricValutaDB();
     }
 
 
@@ -39,7 +39,7 @@ class ServiciuCursIstoric {
             throw new Exception("Valuta" + nume + " nu exista la data " + date);
     }
 
-    private Map<Date, List<Valuta>> getIstoricValutaFromDB() {
+    private Map<Date, List<Valuta>> getIstoricValutaDB() {
         ServiciuDB s = ServiciuDB.getInstance();
         ResultSet rset = s.executeQuery("select * from istoric_valuta");
         istoric = new TreeMap<>(Collections.reverseOrder());
@@ -78,15 +78,33 @@ class ServiciuCursIstoric {
         }
         if (!istoric.get(date).contains(valuta)) {
             istoric.get(date).add(valuta);
-            addValutaToDB(date, valuta);
+            addValutaDB(date, valuta);
         }
     }
 
-    private void addValutaToDB(Date date, Valuta valuta) {
+    private void addValutaDB(Date date, Valuta valuta) {
         Servicii s = Servicii.getInstance();
         s.executeQuery("insert into istoric_valuta values(to_date(\'" + date.toString() + "\',\'dd/mm/yyyy\'),\'" +
                 valuta.getNume() + "\',\'" + valuta.getPrescurtare() + "\'," + valuta.getCurs() + "," + valuta.getComision_cumparare() + "," + valuta.getComision_vanzare() + ")");
     }
+
+    private void stergeValutaDB(Date date, Valuta valuta) {
+        Servicii s = Servicii.getInstance();
+        s.executeQuery("delete from istoric_valuta where data = (to_date(\'" + date.toString() + "\',\'dd/mm/yyyy\') and \'" +
+                valuta.getNume() + "\'=nume");
+    }
+
+    private void updateValutaDB(Date date, Valuta valuta_veche, Valuta valuta_noua) {
+        Servicii s = Servicii.getInstance();
+        s.executeQuery("update istoric_valuta set nume=\'" + valuta_noua.getNume() +
+                "\', prescurtare=\'" + valuta_noua.getPrescurtare() +
+                "\', curs=" + valuta_noua.getCurs() +
+                ",comision_cumparare=" + valuta_noua.getComision_cumparare() +
+                ",comision_vanzare=" + valuta_noua.getComision_vanzare() +
+                " where data = (to_date(\'" + date.toString() + "\',\'dd/mm/yyyy\') and \'" +
+                valuta_veche.getNume() + "\'=nume");
+    }
+
 
     void printIstoric() {
         for (Map.Entry<Date, List<Valuta>> dateListEntry : istoric.entrySet()) {

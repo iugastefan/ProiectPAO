@@ -37,7 +37,7 @@ public class ServiciuClienti {
         return instance;
     }
 
-    void addClientToFisier(String nume, String prenume, long cnp, String serie_id, int numar_id) {
+    void addClientFisier(String nume, String prenume, long cnp, String serie_id, int numar_id) {
         Client x = new Client(nume, prenume, cnp, serie_id, numar_id);
         clienti.add(x);
         try {
@@ -51,13 +51,28 @@ public class ServiciuClienti {
     void addClient(String nume, String prenume, long cnp, String serie_id, int numar_id) {
         Client x = new Client(nume, prenume, cnp, serie_id, numar_id);
         clienti.add(x);
-        addClientToDB(x);
+        addClientDB(x);
     }
 
-    private void addClientToDB(Client client) {
+    private void addClientDB(Client client) {
         Servicii s = Servicii.getInstance();
         s.executeQuery("insert into clienti values(\'" +
                 client.getNume() + "\',\'" + client.getPrenume() + "\'," + client.getCnp() + ",\'" + client.getSerie_id() + "\'," + client.getNumar_id() + ")");
+    }
+
+    private void deleteClientDB(Client client) {
+        Servicii s = Servicii.getInstance();
+        s.executeQuery("delete from clienti where cnp = " + client.getCnp());
+    }
+
+    private void updateClientDB(Client client_vechi, Client client_nou) {
+        Servicii s = Servicii.getInstance();
+        s.executeQuery("update clienti set nume=\'" + client_nou.getNume() +
+                "\', prenume=\'" + client_nou.getPrenume() +
+                "\', cnp=" + client_nou.getCnp() +
+                ", serie_id=\'" + client_nou.getSerie_id() +
+                "\',numar_id=" + client_nou.getNumar_id() +
+                " where cnp = " + client_vechi.getCnp());
     }
 
     void printClienti() {

@@ -5,7 +5,7 @@ import servicii.Servicii;
 import java.time.LocalDate;
 import java.util.Optional;
 
-public class Main {
+public class Main{
     public static void main(String[] args) {
         Servicii servicii = Servicii.getInstance();
         Valuta v = new Valuta("Euro", "EUR", 4.7, 0.02, 0.03);

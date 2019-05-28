@@ -27,7 +27,7 @@ public class ServiciuCasieri {
     }
 
     private ServiciuCasieri() {
-        casieri = getCasieriFromDB();
+        casieri = getCasieriDB();
     }
 
     static ServiciuCasieri getInstance() {
@@ -39,7 +39,7 @@ public class ServiciuCasieri {
     void addCasier(String nume, String prenume) {
         Casier x = new Casier(nume, prenume);
         casieri.add(x);
-        addCasierToDB(x);
+        addCasierDB(x);
     }
 
     void addCasierToFisier(String nume, String prenume) {
@@ -52,12 +52,24 @@ public class ServiciuCasieri {
         }
     }
 
-    private void addCasierToDB(Casier casier) {
+    private void addCasierDB(Casier casier) {
         Servicii s = Servicii.getInstance();
         s.executeQuery("insert into casieri values(" + casier.getId() + ",\'" + casier.getNume() + "\',\'" + casier.getPrenume() + "\')");
     }
 
-    private List<Casier> getCasieriFromDB() {
+    private void deleteCasierDB(Casier casier) {
+        Servicii s = Servicii.getInstance();
+        s.executeQuery("delete from casieri where id = " + casier.getId());
+    }
+
+    private void updateCasierDB(Casier casier_vechi, Casier casier_nou) {
+        Servicii s = Servicii.getInstance();
+        s.executeQuery("update casieri set nume=\'" + casier_nou.getNume() +
+                "\', prenume=\'" + casier_nou.getPrenume() +
+                " where id= " + casier_vechi.getId());
+    }
+
+    private List<Casier> getCasieriDB() {
         ServiciuDB s = ServiciuDB.getInstance();
         ResultSet rset = s.executeQuery("select id, nume, prenume from casieri ");
         List<Casier> cas = new ArrayList<>();
